@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title><img src="./images/airplane.png">출장 체크리스트</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+	<body>
+        <div id="app">
+            <p style="border: 1px solid black; font-size: 20px;"><strong>출장 준비 체크리스트</strong></p>
+			<div v-for="todo in readytodos">
+				<label>
+					<input type="checkbox" v-model="todo.done">
+					<span v-bind:class="{donestyle:todo.done}">{{todo.text}}</span>
+				</label>
+            </div>
+
+            <input type="text" v-model.trim="addtext" v-on:keyup.enter="addToDo" placeholder="할일">
+			<p><button v-on:click="cleanToDo">처리완료삭제</button></p>
+            <p>{{ remaining }} / {{ readytodos.length }}건 처리<br>
+                
+                <p style="border: 1px solid black; font-size: 20px;"><strong>출발 전 체크리스트</strong></p>
+                <div v-for="todolist in beforetodos">
+                    <label>
+                        <input type="checkbox" v-model="todolist.done">
+                        <span v-bind:class="{donestyle:todolist.done}">{{todolist.text}}</span>
+                    </label>
+                </div>
+
+                <input type="text" v-model.trim="addstring" v-on:keyup.enter="addToDo" placeholder="할일">
+                <p><button v-on:click="cleanToDo">처리완료삭제</button></p>
+                <p>{{ beforetodosremaing }} / {{ beforetodos.length }}건 처리<br>
+        
+            <p style="border: 1px solid black; font-size: 20px;"><strong>준비물 체크리스트</strong></p>
+
+            <div v-for="list in materials">
+                <label>
+                    <input type="checkbox" v-model="list.done">
+                    <span v-bind:class="{donestyle:list.done}">{{list.text}}</span>
+                </label>
+            </div>
+
+            <input type="text" v-model.trim="addset" v-on:keyup.enter="addToDo" placeholder="할일">
+            <p><button v-on:click="cleanToDo">처리완료삭제</button></p>
+            <p>{{ meterialsremaining }} / {{ materials.length }}건 처리<br>
+        </div>
+		<script>
+
+			new Vue({
+				el: '#app',
+				data: {
+					addtext:'',
+                    addstring:'',
+                    addset:'',
+
+					readytodos: [
+                    {done:false, text:'출장 품의'},
+                    {done:false, text:'외교부 여행 경보 확인'},
+                    {done:false, text:'입국가능여부 확인'},
+                    {done:false, text:'항공권 예약'},
+                    {done:false, text:'호텔 예약'},
+                    {done:false, text:'비자 신청(필요시)'},
+                    {done:false, text:'현지 업체 초청장 수령 (필요시)'},
+                    {done:false, text:'여행자보험 가입'},
+                    {done:false, text:'신용카드'},
+                    {done:false, text:'환전(현지화폐 또는 달러)'},
+					],
+                    
+                   beforetodos:[
+                       {done:false, text:'입국가능여부 재확인'},
+                       {done:false, text:'건강검진, COVID 음성 증명서 준비'},
+                       {done:false, text:'항공사 온라인 체크인'},
+                       {done:false, text:'여행자보험 가입여부 확인'},
+                       {done:false, text:'현지 날씨 확인'},
+                   ],
+                   materials:[
+                       {done:false, text:'여권'},
+                       {done:false, text:'항공권 E-Ticket'},
+                       {done:false, text:'호텔 바우처'},
+                       {done:false, text:'여행가방'},
+                       {done:false, text:'의류'},
+                       {done:false, text:'악세사리'},
+                       {done:false, text:'우산 (우천시)'},
+                       {done:false, text:'노트북'},
+                       {done:false, text:'스마트폰'},
+                   ]
+
+				},
+				computed: {
+					remaining: function() {
+						return this.readytodos.filter(function(val) {
+							return val.done == true;
+						}).length;
+                    },
+                    beforetodosremaing:function(){
+                        return this.beforetodos.filter(function(val) {
+							return val.done == true;
+						}).length;
+                    },
+                    meterialsremaining:function(){
+                        return this.materials.filter(function(val) {
+							return val.done == true;
+						}).length;
+                    }
+				},
+				methods: {
+                    
+					addToDo: function() {
+						if (this.addtext) {
+							this.readytodos.push({done:false, text:this.addtext});
+							this.addtext = '';
+						}
+                        else if(this.addtext){
+                            this.beforetodos.push({done:false, text:this.addtext});
+                            this.addtext='';
+                        }
+                        else if(this.addtext){
+                            this.meterials.push({done:false, text:this.addtext});
+                            this.addtext='';
+					    }
+                    }, 
+
+					cleanToDo: function() {
+						this.readytodos = this.readytodos.filter(function(val) {
+							return val.done == false;
+						});
+                    },
+                    cleanTodobefore:function(){
+                        this.beforetodos = this.beforetodos.filter(function(val) {
+							return val.done == false;
+						});
+                    },
+                    cleanTodometerials:function(){
+                        this.meterials= this.meterials.filter(function(val) {
+							return val.done == false;
+						})
+					}
+				}
+			})
+        </script>
+    </body>
+    </html>
