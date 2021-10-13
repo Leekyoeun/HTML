@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>visibility</title>
+    <style>
+        img {
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid black;
+        }
+        
+        .invisible {
+            /* visibility 속성 - 요소를 보이게 하거나 보이게 하지 않기 */
+            /* 화면에서 감춘 요소들은 눈에 보이지는 않지만 실제로는 공간을 차지한다. */
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/pic1.jpg">
+    <img src="images/pic2.jpg" class="invisible">
+    <img src="images/pic3.jpg">
+</body>
+
+</html>
